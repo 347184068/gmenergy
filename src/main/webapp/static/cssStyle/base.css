@@ -1,0 +1,199 @@
+@charset "UTF-8";
+body {
+  font-family: '微软雅黑';
+  background: #f2f2f2;
+}
+
+.weui-group {
+  padding: 10px 0;
+}
+
+.weui-group .weui-group-list {
+  padding: 0 5px;
+}
+
+.weui-group .weui-group-bule {
+  border: 0;
+  box-shadow: 1px 1px 15px #999;
+}
+
+.weui-group .weui-group-bule .panel-heading {
+  padding: 15px 0;
+  background: #308da4;
+  color: #f9f9f9;
+  font-size: 18px;
+  border-radius: 0;
+}
+
+.weui-group .weui-group-bule .panel-body {
+  padding: 0;
+  background: #359cb6;
+  color: #fff;
+  font-size: 14px;
+}
+
+.weui-group .weui-group-bule .list-group {
+  margin: 0;
+}
+
+.weui-group .weui-group-bule .list-group-item {
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.weui-group .weui-group-bule .list-group-item .weui-title {
+  float: left;
+  width: 100px;
+  overflow: hidden;
+}
+
+.weui-group .weui-group-red {
+  border: 0;
+  box-shadow: 1px 1px 15px #999;
+}
+
+.weui-group .weui-group-red .panel-heading {
+  padding: 15px 0;
+  background: #c74433;
+  color: #f9f9f9;
+  font-size: 18px;
+  border-radius: 0;
+}
+
+.weui-group .weui-group-red .panel-body {
+  padding: 0;
+  background: #dd4b39;
+  color: #fff;
+  font-size: 14px;
+}
+
+.weui-group .weui-group-red .list-group {
+  margin: 0;
+}
+
+.weui-group .weui-group-red .list-group-item {
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.weui-group .weui-group-red .list-group-item .weui-title {
+  float: left;
+  width: 100px;
+  overflow: hidden;
+}
+
+.weui-group .weui-group-yellow {
+  border: 0;
+  box-shadow: 1px 1px 15px #999;
+}
+
+.weui-group .weui-group-yellow .panel-heading {
+  padding: 15px 0;
+  background: #db8d10;
+  color: #f9f9f9;
+  font-size: 18px;
+  border-radius: 0;
+}
+
+.weui-group .weui-group-yellow .panel-body {
+  padding: 0;
+  background: #f39c12;
+  color: #fff;
+  font-size: 14px;
+}
+
+.weui-group .weui-group-yellow .list-group {
+  margin: 0;
+}
+
+.weui-group .weui-group-yellow .list-group-item {
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.weui-group .weui-group-yellow .list-group-item .weui-title {
+  float: left;
+  width: 100px;
+  overflow: hidden;
+}
+
+.weui-group .weui-group-green {
+  border: 0;
+  box-shadow: 1px 1px 15px #999;
+}
+
+.weui-group .weui-group-green .panel-heading {
+  padding: 15px 0;
+  background: #009651;
+  color: #f9f9f9;
+  font-size: 18px;
+  border-radius: 0;
+}
+
+.weui-group .weui-group-green .panel-body {
+  padding: 0;
+  background: #00a65a;
+  color: #fff;
+  font-size: 14px;
+}
+
+.weui-group .weui-group-green .list-group {
+  margin: 0;
+}
+
+.weui-group .weui-group-green .list-group-item {
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.weui-group .weui-group-green .list-group-item .weui-title {
+  float: left;
+  width: 100px;
+  overflow: hidden;
+}
+
+#shuju {
+  padding: 5px 10px;
+  float: left;
+  background: #fff;
+  width: 70%;
+  height: 300px;
+}
+
+#shuju .table th, #shuju .table tr {
+  text-align: center;
+}
+
+#shuju .pagination {
+  float: right;
+}
+
+#new {
+  padding: 5px 10px;
+  float: right;
+  width: 30%;
+  height: 300px;
+  background: #fff;
+}
+
+#zhexian {
+  float: left;
+  width: 86%;
+  height: 300px;
+}
+
+#zhexiandata {
+  padding-top: 90px;
+  margin-left: -30px;
+  float: left;
+  line-height: 30px;
+  color: #333;
+}

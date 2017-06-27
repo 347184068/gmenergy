@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tp.ems.modules.poweranalysis.dao.ElecDataAmountDao">
+
+	<sql id="elecDataColumns">
+		id as id,
+        deviceId as deviceId,
+        maxLoad as maxLoad,
+        minLoad as minLoad,
+        avgLoad as avgLoad,
+        inDate as inDate
+	</sql>
+	<select id="getYearPowerData" parameterType="ElecDataAmount" resultType="ElecDataAmount">
+		SELECT  *
+
+        from year_amount
+
+        WHERE deviceId = #{deviceId}
+
+      <![CDATA[  AND inDate LIKE CONCAT('%',DATE_FORMAT(#{inDate}, '%Y'),'%' )   ]]>
+
+	</select>
+        <select id="getMonthPowerData" parameterType="ElecDataAmount" resultType="ElecDataAmount">
+                SELECT  *
+
+                from month_amount
+
+                WHERE deviceId = #{deviceId}
+
+                <![CDATA[  AND inDate LIKE CONCAT('%',DATE_FORMAT(#{inDate}, '%Y-%m'),'%' )   ]]>
+
+        </select>
+        <select id="getDayPowerData" parameterType="ElecDataAmount" resultType="ElecDataAmount">
+                SELECT  *
+
+                from day_amount
+
+                WHERE deviceId = #{deviceId}
+
+                <![CDATA[  AND inDate LIKE CONCAT('%',DATE_FORMAT(#{inDate}, '%Y-%m-%d'),'%' )   ]]>
+
+        </select>
+
+    <select id="getRealTimePowerData" parameterType="ElecDataAmount" resultType="ElecDataAmount">
+           SELECT  *
+           from hour_amount
+           WHERE deviceId = #{deviceId}
+           <![CDATA[  AND inDate LIKE CONCAT('%',DATE_FORMAT(#{inDate}, '%Y-%m-%d'),'%' )
+
+           ]]>
+
+        order by inDate
+    </select>
+
+    <select id="getRealTimeElecData" parameterType="ElecDataAmount" resultType="ElecDataAmount">
+        SELECT  *
+        from hour_amount
+        WHERE deviceId = #{deviceId}
+        <![CDATA[  AND inDate LIKE CONCAT('%',DATE_FORMAT(#{inDate}, '%Y-%m-%d'),'%' )
+        and inDate < sysdate()
+        ]]>
+ order by inDate
+    </select>
+
+
+    <select id="getMonthSum" parameterType="ElecDataAmount" resultType="ElecDataAmount">
+        select deviceId as deviceId,
+        sum(electricity) as electricity
+        from month_amount
+        WHERE deviceId = #{deviceId}
+
+        <![CDATA[  AND inDate LIKE CONCAT('%',DATE_FORMAT(#{inDate}, '%Y-%m'),'%' )   ]]>
+
+    </select>
+
+</mapper>

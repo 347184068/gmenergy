@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tp.ems.modules.dayamount.dao.MonthAmountDao">
+    
+	<sql id="monthAmountColumns">
+		a.id AS "id",
+		a.deviceid AS "deviceid.id",
+		m.name AS "deviceid.name",
+		a.maxload AS "maxload",
+		a.minload AS "minload",
+		a.avgload AS "avgload",
+		a.electricity AS "electricity",
+		a.indate AS "indate"
+	</sql>
+	
+	<sql id="monthAmountJoins">
+		LEFT JOIN monitordevices m ON m.id = a.deviceid
+    </sql>
+    
+	<select id="get" resultType="MonthAmount">
+		SELECT 
+			<include refid="monthAmountColumns"/>
+		FROM month_amount a
+		<include refid="monthAmountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MonthAmount">
+		SELECT 
+			<include refid="monthAmountColumns"/>
+		FROM month_amount a
+		<include refid="monthAmountJoins"/>
+		<if test="deviceId !=null and deviceId != ''">
+			WHERE a.deviceId = #{deviceId}
+		</if>
+		<if test="indate !=null">
+			<![CDATA[  AND a.indate LIKE CONCAT('%',DATE_FORMAT(#{indate}, '%Y-%m'),'%' )]]>
+
+		</if>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="MonthAmount">
+		SELECT 
+			<include refid="monthAmountColumns"/>
+		FROM month_amount a
+		<include refid="monthAmountJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO month_amount(
+			id,
+			deviceid,
+			maxload,
+			minload,
+			avgload,
+			electricity,
+			indate
+		) VALUES (
+			#{id},
+			#{deviceid},
+			#{maxload},
+			#{minload},
+			#{avgload},
+			#{electricity},
+			#{indate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE month_amount SET 	
+			deviceid = #{deviceid},
+			maxload = #{maxload},
+			minload = #{minload},
+			avgload = #{avgload},
+			electricity = #{electricity},
+			indate = #{indate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM month_amount
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

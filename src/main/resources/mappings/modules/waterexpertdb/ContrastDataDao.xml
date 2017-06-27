@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tp.ems.modules.waterexpertdb.dao.ContrastDataDao">
+    
+	<sql id="contrastDataAmountColumns">
+		a.id AS "id",
+		a.deviceid AS "deviceid",
+		a.JLJLL AS "jljll",
+		a.SSLL AS "ssll",
+		a.indate AS "indate"
+	</sql>
+	
+	<sql id="contrastDataAmountJoins">
+	</sql>
+    
+	<select id="get" resultType="ContrastData">
+		SELECT 
+			<include refid="contrastDataAmountColumns"/>
+		FROM month_water a
+		<include refid="contrastDataAmountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ContrastData">
+		SELECT 
+			<include refid="contrastDataAmountColumns"/>
+		FROM month_water a
+		<include refid="contrastDataAmountJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ContrastData">
+		SELECT 
+			<include refid="contrastDataAmountColumns"/>
+		FROM month_water a
+		<include refid="contrastDataAmountJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO month_water(
+			id,
+			deviceid,
+			maxload,
+			minload,
+			avgload,
+			electricity,
+			indate
+		) VALUES (
+			#{id},
+			#{deviceid},
+			#{maxload},
+			#{minload},
+			#{avgload},
+			#{electricity},
+			#{indate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE month_water SET
+			deviceid = #{deviceid},
+			maxload = #{maxload},
+			minload = #{minload},
+			avgload = #{avgload},
+			electricity = #{electricity},
+			indate = #{indate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM month_water
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="getIntervalData" parameterType="ContrastData" resultType="ContrastData">
+
+		SELECT
+		<include refid="contrastDataAmountColumns"/> ,
+		b.name as deviceName
+
+        from month_water a,monitordevices b
+
+		WHERE deviceId = #{deviceId}
+
+      	<![CDATA[  AND (inDate >= DATE_FORMAT(#{startTime}, '%Y-%m-%d')
+      	                 AND  inDate <= DATE_FORMAT(#{endTime},'%Y-%m-%d'))]]>
+		and deviceId = b.id
+	</select>
+</mapper>

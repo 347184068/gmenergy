@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tp.ems.modules.expertdb.dao.ContrastDataAmountDao">
+    
+	<sql id="contrastDataAmountColumns">
+		a.id AS "id",
+		a.deviceid AS "deviceid",
+		a.maxload AS "maxload",
+		a.minload AS "minload",
+		a.avgload AS "avgload",
+		a.electricity AS "electricity",
+		a.indate AS "indate"
+	</sql>
+	
+	<sql id="contrastDataAmountJoins">
+	</sql>
+    
+	<select id="get" resultType="ContrastDataAmount">
+		SELECT 
+			<include refid="contrastDataAmountColumns"/>
+		FROM month_amount a
+		<include refid="contrastDataAmountJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ContrastDataAmount">
+		SELECT 
+			<include refid="contrastDataAmountColumns"/>
+		FROM month_amount a
+		<include refid="contrastDataAmountJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ContrastDataAmount">
+		SELECT 
+			<include refid="contrastDataAmountColumns"/>
+		FROM month_amount a
+		<include refid="contrastDataAmountJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO month_amount(
+			id,
+			deviceid,
+			maxload,
+			minload,
+			avgload,
+			electricity,
+			indate
+		) VALUES (
+			#{id},
+			#{deviceid},
+			#{maxload},
+			#{minload},
+			#{avgload},
+			#{electricity},
+			#{indate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE month_amount SET
+			deviceid = #{deviceid},
+			maxload = #{maxload},
+			minload = #{minload},
+			avgload = #{avgload},
+			electricity = #{electricity},
+			indate = #{indate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM month_amount
+		WHERE id = #{id}
+	</update>
+
+
+	<select id="getIntervalData" parameterType="ContrastDataAmount" resultType="ContrastDataAmount">
+
+		SELECT
+		<include refid="contrastDataAmountColumns"/> ,
+		b.name as deviceName
+
+        from month_amount a,monitordevices b
+
+		WHERE deviceId = #{deviceId}
+
+      	<![CDATA[  AND (inDate >= DATE_FORMAT(#{startTime}, '%Y-%m-%d')
+      	                 AND  inDate <= DATE_FORMAT(#{endTime},'%Y-%m-%d'))]]>
+		and deviceId = b.id
+	</select>
+</mapper>

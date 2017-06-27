@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tp.ems.modules.monitoritem.dao.MonitorTypeDao">
+    
+	<sql id="monitorTypeColumns">
+		a.id AS "id",
+		a.type AS "itemType",
+		a.value AS "itemValue",
+		a.menu as "menu"
+	</sql>
+	
+	<sql id="monitorTypeJoins">
+	</sql>
+    
+	<select id="get" resultType="MonitorType">
+		SELECT 
+			<include refid="monitorTypeColumns"/>
+		FROM monitor_type a
+		<include refid="monitorTypeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="MonitorType" parameterType="MonitorType">
+		SELECT 
+			<include refid="monitorTypeColumns"/>
+		FROM monitor_type a
+		WHERE a.menu = #{menu}
+		<!--<include refid="monitorTypeJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>-->
+	</select>
+	
+	<select id="findAllList" resultType="MonitorType">
+		SELECT 
+			<include refid="monitorTypeColumns"/>
+		FROM monitor_type a
+		<include refid="monitorTypeJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO monitor_type(
+			id,
+			type,
+			value
+		) VALUES (
+			#{id},
+			#{itemType},
+			#{itemValue}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE monitor_type SET 	
+			type = #{itemType},
+			value = #{itemValue}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM monitor_type
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tp.ems.modules.elecreport.dao.ElecPojoDao">
+
+	<select id="getElecList" resultType="ElecPojo" parameterType="ElecPojo">
+		SELECT
+		e.id as id,
+		e.address as linesName,
+		e.type as type,
+		e.value as value
+		FROM elec_data e
+		where
+		<![CDATA[
+		e.time>#{startDate}
+		and e.time<=#{requestDate}
+		]]>
+		and not exists(
+		select 1 from elec_data t
+		where t.address=e.address and t.type=e.type
+			<![CDATA[
+		and t.time>e.time and
+		t.time> #{startDate}
+		   and t.time<= #{requestDate}  ]]>
+		)
+		<if test="linesName!=null and linesName!=''">
+			and address=#{linesName}
+		</if>
+		order by e.address,e.type
+
+	</select>
+
+	
+</mapper>

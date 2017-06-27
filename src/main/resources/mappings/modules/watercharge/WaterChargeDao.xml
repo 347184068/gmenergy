@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tp.ems.modules.watercharge.dao.WaterChargeDao">
+    
+	<sql id="energyChargeColumns">
+		a.id AS "id",
+		a.deviceid AS "deviceId",
+		a.JLJLL AS "jljll",
+		a.indate AS "indate"
+	</sql>
+
+	<sql id="energyChargeJoins">
+	</sql>
+    
+	<select id="get" resultType="EnergyCharge">
+		SELECT 
+			<include refid="energyChargeColumns"/>
+		FROM year_water a
+		<include refid="energyChargeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="EnergyCharge">
+		SELECT 
+			<include refid="energyChargeColumns"/>
+		FROM year_water a
+		<include refid="energyChargeJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="EnergyCharge">
+		SELECT 
+			<include refid="energyChargeColumns"/>
+		FROM year_water a
+		<include refid="energyChargeJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO year_water(
+			id,
+			deviceid,
+			maxload,
+			minload,
+			avgload,
+			electricity,
+			indate
+		) VALUES (
+			#{id},
+			#{deviceId},
+			#{maxload},
+			#{minload},
+			#{avgload},
+			#{electricity},
+			#{indate}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE year_water SET
+			deviceid = #{deviceId},
+			maxload = #{maxload},
+			minload = #{minload},
+			avgload = #{avgload},
+			electricity = #{electricity},
+			indate = #{indate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM year_water
+		WHERE id = #{id}
+	</update>
+
+
+	<sql id="chargeColumn">
+		a.deviceid AS "deviceId",
+		a.JLJLL AS "jljll",
+		DATE_FORMAT(a.inDate, '%Y-%m') as "indate",
+	</sql>
+
+	<select id="getOneDeviceCharge" parameterType="EnergyCharge" resultType="EnergyCharge">
+		 SELECT
+		  	a.deviceid AS "deviceId",
+			a.JLJLL AS "jljll",
+			a.JLJLL as "sumElec",
+			DATE_FORMAT(a.inDate, '%Y-%m') as "indate",
+			(a.JLJLL * #{unitPrice}) AS "totalPrice"
+		 FROM month_water a
+		 WHERE a.deviceId = #{deviceId}
+		 <![CDATA[  AND (DATE_FORMAT(a.inDate,'%Y-%m') >= DATE_FORMAT(#{startTime}, '%Y-%m')
+      	                 AND  DATE_FORMAT(a.inDate,'%Y-%m') <= DATE_FORMAT(#{endTime},'%Y-%m'))]]>
+	</select>
+
+
+	<select id="getDiffDeviceCharge" parameterType="Map" resultType="EnergyCharge">
+		SELECT *,
+		SUM(a.JLJLL) as "sumElec",
+		(SUM(a.JLJLL) * #{unitPrice}) AS "totalPrice",
+		#{unitPrice} AS unitPrice,
+		b.name as deviceName
+		FROM month_water a,monitordevices b
+
+		WHERE
+		<![CDATA[   (DATE_FORMAT(a.inDate,'%Y-%m') >= DATE_FORMAT(#{startTime}, '%Y-%m')
+      	                 AND  DATE_FORMAT(a.inDate,'%Y-%m') <= DATE_FORMAT(#{endTime},'%Y-%m'))]]>
+		AND
+		a.deviceId IN
+		<foreach collection="list" item="item" index="index" open="(" close=")"
+				 separator=",">
+			#{item}
+		</foreach>
+		and a.deviceId = b.id
+		GROUP BY a.deviceId
+	</select>
+
+	<select id="getAllDeviceCharge" resultType="EnergyCharge" parameterType="EnergyCharge">
+			SELECT
+		DATE_FORMAT(a.inDate, '%Y-%m') as "indate",
+		SUM(a.JLJLL) as "sumElec",
+		(SUM(a.JLJLL) * #{unitPrice}) AS "totalPrice",
+		#{unitPrice} AS unitPrice,
+		b.name as deviceName
+		FROM month_water a
+		LEFT JOIN monitordevices b
+		ON b.id = a.deviceId
+
+		WHERE
+
+		<![CDATA[  (DATE_FORMAT(a.inDate,'%Y-%m') >= DATE_FORMAT(#{startTime}, '%Y-%m')
+      	                 AND  DATE_FORMAT(a.inDate,'%Y-%m') <= DATE_FORMAT(#{endTime},'%Y-%m'))]]>
+
+
+		GROUP BY a.deviceid
+	</select>
+	
+</mapper>
+
+

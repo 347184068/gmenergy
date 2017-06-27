@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tp.ems.modules.limitwarn.dao.OverLimitDao">
+    
+	<sql id="overLimitColumns">
+		a.id AS "id",
+		a.deviceid AS "deviceId",
+		a.indate AS "indate",
+		a.value AS "value",
+		a.type AS "type",
+		a.limit_percent AS "limitPercent"
+	</sql>
+	
+	<sql id="overLimitJoins">
+	</sql>
+    
+	<select id="get" resultType="OverLimit">
+		SELECT 
+			<include refid="overLimitColumns"/>
+		FROM over_balance a
+		<include refid="overLimitJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OverLimit">
+		SELECT 
+			<include refid="overLimitColumns"/>
+		FROM over_balance a
+		<include refid="overLimitJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OverLimit">
+		SELECT 
+			<include refid="overLimitColumns"/>
+		FROM over_balance a
+		<include refid="overLimitJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO over_balance(
+			id,
+			deviceid,
+			indate,
+			value,
+			type,
+			limit_percent
+		) VALUES (
+			#{id},
+			#{deviceId},
+			#{indate},
+			#{value},
+			#{type},
+			#{limitPercent}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE over_balance SET 	
+			deviceid = #{deviceId},
+			indate = #{indate},
+			value = #{value},
+			type = #{type},
+			limit_percent = #{limitPercent}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM over_balance
+		WHERE id = #{id}
+	</update>
+
+	<!--/* e.value AS monitorType,监测类型*/-->
+	<select id="getLimitRecord" parameterType="OverLimit" resultType="OverLimit">
+		select
+			COUNT(*) AS limitCount,
+			MAX(a.limit_percent) AS limitPercent,
+			b.name AS deviceName,
+			DATE_FORMAT(a.indate,'%Y-%m-%d') AS indate,
+			e.value AS monitorType,
+			d.value AS standardValue,
+			d.upper_limit AS upperLimit,
+			d.lower_limit AS lowerLimit
+       	FROM over_balance a ,monitordevices b,monitor_type e,standard_limit d
+		WHERE a.type=#{monitorType} AND a.deviceId = b.id AND a.type=e.type AND a.type = d.type
+		AND  e.menu = #{menu}
+		<![CDATA[ AND (DATE_FORMAT(a.indate,'%Y-%m-%d') >= DATE_FORMAT(#{startTime}, '%Y-%m-%d')
+		 				AND DATE_FORMAT(a.indate,'%Y-%m-%d') <= DATE_FORMAT(#{endTime}, '%Y-%m-%d'))]]>
+		GROUP BY deviceId
+
+
+	</select>
+
+	<select id="getAllOverLimit" parameterType="OverLimit" resultType="OverLimit">
+		select
+			COUNT(*) AS limitCount,
+			a.limit_percent AS limitPercent,
+			b.name AS deviceName,
+			DATE_FORMAT(a.indate,'%Y-%m-%d') AS indate,
+			e.value AS monitorType,
+			d.value AS standardValue,
+			d.upper_limit AS upperLimit,
+			d.lower_limit AS lowerLimit
+       	FROM over_balance a ,monitordevices b,monitor_type e,standard_limit d
+		WHERE a.type=#{monitorType} AND a.deviceId = b.id AND a.type=e.type AND a.type = d.type
+		AND e.menu = #{menu}
+		GROUP BY deviceId
+	</select>
+
+	<!--单项节点所有的越限记录 -->
+	<select id="getOneDeviceAllOverLimit" parameterType="OverLimit" resultType="OverLimit">
+		select
+			a.deviceId as deviceId,
+			a.limit_percent AS limitPercent,
+			b.name AS deviceName,
+			DATE_FORMAT(a.indate,'%Y-%m-%d') AS indate,
+			e.value AS monitorType,
+			d.value AS standardValue,
+			d.upper_limit AS upperLimit,
+			d.lower_limit AS lowerLimit
+       	FROM over_balance a ,monitordevices b,monitor_type e,standard_limit d
+		WHERE a.type=#{monitorType} AND a.deviceId = b.id
+		AND a.type=e.type AND a.type = d.type AND a.deviceId = #{deviceId} AND
+		e.menu = #{menu}
+
+	</select>
+
+	<!--根据条件查询-单项节点的越限记录-->
+	<select id="getOneDeviceOverLimit" parameterType="OverLimit" resultType="OverLimit">
+		select
+			a.deviceId as deviceId,
+			a.limit_percent AS limitPercent,
+			b.name AS deviceName,
+			DATE_FORMAT(a.indate,'%Y-%m-%d') AS indate,
+			e.value AS monitorType,
+			d.value AS standardValue,
+			d.upper_limit AS upperLimit,
+			d.lower_limit AS lowerLimit
+       	FROM over_balance a ,monitordevices b,monitor_type e,standard_limit d
+		WHERE a.type=#{monitorType} AND a.deviceId = b.id AND a.type=e.type AND a.type = d.type
+		AND a.deviceId = #{deviceId} AND
+		e.menu = #{menu}
+
+		<if test="startTime!=null and startTime!=''">
+		<![CDATA[ AND (DATE_FORMAT(a.indate,'%Y-%m-%d') >= DATE_FORMAT(#{startTime}, '%Y-%m-%d'))]]>
+		</if>
+		<if test="endTime!=null and endTime!=''">
+			<![CDATA[AND (DATE_FORMAT(a.indate,'%Y-%m-%d') <= DATE_FORMAT(#{endTime}, '%Y-%m-%d'))]]>
+		</if>
+	</select>
+</mapper>

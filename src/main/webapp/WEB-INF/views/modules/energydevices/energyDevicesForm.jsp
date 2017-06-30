@@ -26,13 +26,13 @@
 	</script>
 </head>
 <body>
-	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/energydevices/energyDevices?type=1">设备列表</a></li>
-		<li class="active"><a href="${ctx}/energydevices/energyDevices/form?id=${energyDevices.id}">设备${not empty energyDevices.id?'修改':'添加'}</a></li>
-	</ul><br/>
+<ul class="nav nav-tabs">
+	<li><a href="${ctx}/energydevices/energyDevices?type=1">设备列表</a></li>
+	<li class="active"><a href="${ctx}/energydevices/energyDevices/form?id=${energyDevices.id}">设备${not empty energyDevices.id?'修改':'添加'}</a></li>
+</ul><br/>
 	<form:form id="inputForm" modelAttribute="energyDevices" action="${ctx}/energydevices/energyDevices/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>		
+		<sys:message content="${message}"/>
 		<div class="control-group">
 			<label class="control-label">设备ID：</label>
 			<div class="controls">
@@ -53,6 +53,18 @@
 				<form:select path="type" class="input-xlarge ">
 					<form:options items="${fns:getDictList('devices_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">月限额：</label>
+			<div class="controls">
+				<form:input path="monthLimit" htmlEscape="false" maxlength="255" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">年限额：</label>
+			<div class="controls">
+				<form:input path="yearLimit" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">

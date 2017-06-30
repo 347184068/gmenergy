@@ -16,7 +16,7 @@ import com.tp.ems.modules.energydevices.dao.EnergyDevicesDao;
 /**
  * 能源设备管理Service
  * @author 徐韵轩
- * @version 2017-06-25
+ * @version 2017-06-30
  */
 @Service
 @Transactional(readOnly = true)
@@ -43,8 +43,6 @@ public class EnergyDevicesService extends CrudService<EnergyDevicesDao, EnergyDe
 	public void delete(EnergyDevices energyDevices) {
 		super.delete(energyDevices);
 	}
-
-
 	public List<EnergyDevices> findAllElecDevices(){
 		EnergyDevices energyDevices = new EnergyDevices();
 		energyDevices.setType("0");
@@ -56,5 +54,5 @@ public class EnergyDevicesService extends CrudService<EnergyDevicesDao, EnergyDe
 		energyDevices.setType("1");
 		return findList(energyDevices);
 	}
-	
+
 }

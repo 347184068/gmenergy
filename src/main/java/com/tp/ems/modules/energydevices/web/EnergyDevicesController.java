@@ -25,7 +25,7 @@ import com.tp.ems.modules.energydevices.service.EnergyDevicesService;
 /**
  * 能源设备管理Controller
  * @author 徐韵轩
- * @version 2017-06-25
+ * @version 2017-06-30
  */
 @Controller
 @RequestMapping(value = "${adminPath}/energydevices/energyDevices")
@@ -66,9 +66,9 @@ public class EnergyDevicesController extends BaseController {
 		}
 		energyDevicesService.save(energyDevices);
 		addMessage(redirectAttributes, "保存设备成功");
-		return "redirect:"+Global.getAdminPath()+"/energydevices/energyDevices?repage";
+		return "redirect:"+Global.getAdminPath()+"/energydevices/energyDevices/?repage";
 	}
-	
+
 	@RequestMapping(value = "delete")
 	public String delete(EnergyDevices energyDevices, RedirectAttributes redirectAttributes) {
 		energyDevicesService.delete(energyDevices);

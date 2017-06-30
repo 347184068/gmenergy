@@ -10,7 +10,7 @@ import com.tp.ems.common.persistence.DataEntity;
 /**
  * 能源设备管理Entity
  * @author 徐韵轩
- * @version 2017-06-25
+ * @version 2017-06-30
  */
 public class EnergyDevices extends DataEntity<EnergyDevices> {
 	
@@ -18,6 +18,8 @@ public class EnergyDevices extends DataEntity<EnergyDevices> {
 	private String deviceId;		// 真实设备编号
 	private String type;		// 设备类型0电表，水表
 	private String name;		// 名称
+	private String monthLimit;		// 月限定额度
+	private String yearLimit;		// 年限额
 	
 	public EnergyDevices() {
 		super();
@@ -52,6 +54,24 @@ public class EnergyDevices extends DataEntity<EnergyDevices> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Length(min=0, max=255, message="月限定额度长度必须介于 0 和 255 之间")
+	public String getMonthLimit() {
+		return monthLimit;
+	}
+
+	public void setMonthLimit(String monthLimit) {
+		this.monthLimit = monthLimit;
+	}
+	
+	@Length(min=0, max=255, message="年限额长度必须介于 0 和 255 之间")
+	public String getYearLimit() {
+		return yearLimit;
+	}
+
+	public void setYearLimit(String yearLimit) {
+		this.yearLimit = yearLimit;
 	}
 	
 }

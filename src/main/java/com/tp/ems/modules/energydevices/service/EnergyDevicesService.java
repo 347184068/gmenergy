@@ -55,4 +55,9 @@ public class EnergyDevicesService extends CrudService<EnergyDevicesDao, EnergyDe
 		return findList(energyDevices);
 	}
 
+
+	public EnergyDevices getDeviceByDeviceId(String deviceId){
+		return dao.getByDeviceId(deviceId);
+	}
+
 }

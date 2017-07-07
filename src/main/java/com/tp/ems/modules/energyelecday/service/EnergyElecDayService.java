@@ -3,6 +3,7 @@
  */
 package com.tp.ems.modules.energyelecday.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -42,6 +43,13 @@ public class EnergyElecDayService extends CrudService<EnergyElecDayDao, EnergyEl
 	@Transactional(readOnly = false)
 	public void delete(EnergyElecDay energyElecDay) {
 		super.delete(energyElecDay);
+	}
+
+	public List<EnergyElecDay> findByMonth(String deviceId, Date inDate){
+		EnergyElecDay energyElecDay = new EnergyElecDay();
+		energyElecDay.setDeviceId(deviceId);
+		energyElecDay.setDataTime(inDate);
+		return findList(energyElecDay);
 	}
 	
 }

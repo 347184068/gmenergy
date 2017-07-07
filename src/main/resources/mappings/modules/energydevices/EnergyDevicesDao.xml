@@ -19,7 +19,16 @@
 	
 	<sql id="energyDevicesJoins">
 	</sql>
-    
+
+	<select id="getByDeviceId" resultType="EnergyDevices">
+		SELECT
+		<include refid="energyDevicesColumns"/>
+		FROM energy_devices a
+		<include refid="energyDevicesJoins"/>
+		WHERE a.deviceid = #{deviceId}
+	</select>
+
+
 	<select id="get" resultType="EnergyDevices">
 		SELECT 
 			<include refid="energyDevicesColumns"/>

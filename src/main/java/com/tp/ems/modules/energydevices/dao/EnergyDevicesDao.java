@@ -14,5 +14,6 @@ import com.tp.ems.modules.energydevices.entity.EnergyDevices;
  */
 @MyBatisDao
 public interface EnergyDevicesDao extends CrudDao<EnergyDevices> {
-	
+
+    EnergyDevices getByDeviceId(String deviceId);
 }

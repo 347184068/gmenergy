@@ -3,8 +3,10 @@
  */
 package com.tp.ems.modules.energywatermonth.service;
 
+import java.util.Date;
 import java.util.List;
 
+import com.tp.ems.modules.energywaterday.entity.EnergyWaterDay;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,5 +45,11 @@ public class EnergyWaterMonthService extends CrudService<EnergyWaterMonthDao, En
 	public void delete(EnergyWaterMonth energyWaterMonth) {
 		super.delete(energyWaterMonth);
 	}
-	
+
+	public List<EnergyWaterMonth> findByYear(String deviceId, Date inDate){
+		EnergyWaterMonth energyWaterMonth = new EnergyWaterMonth();
+		energyWaterMonth.setDeviceId(deviceId);
+		energyWaterMonth.setDataTime(inDate);
+		return findList(energyWaterMonth);
+	}
 }

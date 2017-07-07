@@ -7,6 +7,8 @@ import com.tp.ems.common.persistence.CrudDao;
 import com.tp.ems.common.persistence.annotation.MyBatisDao;
 import com.tp.ems.modules.energyelecmonth.entity.EnergyElecMonth;
 
+import java.util.Date;
+
 /**
  * 电表每月数据DAO接口
  * @author 徐韵轩
@@ -14,5 +16,5 @@ import com.tp.ems.modules.energyelecmonth.entity.EnergyElecMonth;
  */
 @MyBatisDao
 public interface EnergyElecMonthDao extends CrudDao<EnergyElecMonth> {
-	
+
 }

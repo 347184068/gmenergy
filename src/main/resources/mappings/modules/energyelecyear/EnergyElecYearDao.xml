@@ -17,7 +17,7 @@
 	
 	<sql id="energyElecYearJoins">
 	</sql>
-    
+
 	<select id="get" resultType="EnergyElecYear">
 		SELECT 
 			<include refid="energyElecYearColumns"/>

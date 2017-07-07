@@ -37,7 +37,7 @@
 				AND a.deviceid = #{deviceId}
 			</if>
 			<if test="dataTime != null and dataTime != ''">
-				AND a.datatime = #{dataTime}
+				AND a.datatime LIKE CONCAT(DATE_FORMAT(#{dataTime}, '%Y'),'%' )
 			</if>
 			<if test="dataYear != null and dataYear != ''">
 				AND a.datatime LIKE CONCAT(#{dataYear},'%' )

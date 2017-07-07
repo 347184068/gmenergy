@@ -17,9 +17,9 @@
 	
 	<sql id="energyElecMonthJoins">
 	</sql>
-    
+
 	<select id="get" resultType="EnergyElecMonth">
-		SELECT 
+		SELECT
 			<include refid="energyElecMonthColumns"/>
 		FROM energy_elec_month a
 		<include refid="energyElecMonthJoins"/>

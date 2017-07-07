@@ -14,5 +14,5 @@ import com.tp.ems.modules.energyelecyear.entity.EnergyElecYear;
  */
 @MyBatisDao
 public interface EnergyElecYearDao extends CrudDao<EnergyElecYear> {
-	
+
 }

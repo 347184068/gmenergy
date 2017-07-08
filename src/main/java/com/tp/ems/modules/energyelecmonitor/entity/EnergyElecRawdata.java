@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.tp.ems.modules.energyelecmonth.entity;
+package com.tp.ems.modules.energyelecmonitor.entity;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -12,24 +12,25 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tp.ems.common.persistence.DataEntity;
 
 /**
- * 电表每月数据Entity
+ * 电数据在线监控Entity
  * @author 徐韵轩
- * @version 2017-06-26
+ * @version 2017-07-07
  */
-public class EnergyElecMonth extends DataEntity<EnergyElecMonth> {
+public class EnergyElecRawdata extends DataEntity<EnergyElecRawdata> {
 	
 	private static final long serialVersionUID = 1L;
 	private String deviceId;		// 设备ID
-	private String data;		// 设备采集一个月耗电数据
+	private String rawData;		// 设备采集原始数据
 	private Date dataTime;		// 采集数据时间
 
-	private String dataYear;
+
+	private Integer count;  //获取最新数据条数
 	
-	public EnergyElecMonth() {
+	public EnergyElecRawdata() {
 		super();
 	}
 
-	public EnergyElecMonth(String id){
+	public EnergyElecRawdata(String id){
 		super(id);
 	}
 
@@ -42,18 +43,18 @@ public class EnergyElecMonth extends DataEntity<EnergyElecMonth> {
 		this.deviceId = deviceId;
 	}
 	
-	@Length(min=1, max=100, message="设备采集一个月耗电数据长度必须介于 1 和 100 之间")
-	public String getData() {
+	@Length(min=1, max=100, message="设备采集原始数据长度必须介于 1 和 100 之间")
+	public String getRawData() {
 		String value = null;
-		if(this.data!=null){
-			BigDecimal bigDecimal = new BigDecimal(this.data);
+		if(this.rawData!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.rawData);
 			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
 		}
 		return value;
 	}
 
-	public void setData(String data) {
-		this.data = data;
+	public void setRawData(String rawData) {
+		this.rawData = rawData;
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -65,11 +66,22 @@ public class EnergyElecMonth extends DataEntity<EnergyElecMonth> {
 		this.dataTime = dataTime;
 	}
 
-	public String getDataYear() {
-		return dataYear;
+	public Integer getCount() {
+		return count;
 	}
 
-	public void setDataYear(String dataYear) {
-		this.dataYear = dataYear;
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+
+	@Override
+	public String toString() {
+		return "EnergyElecRawdata{" +
+				"deviceId='" + deviceId + '\'' +
+				", rawData='" + rawData + '\'' +
+				", dataTime=" + dataTime +
+				", count=" + count +
+				'}';
 	}
 }

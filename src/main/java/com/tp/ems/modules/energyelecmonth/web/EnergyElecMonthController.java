@@ -6,12 +6,13 @@ package com.tp.ems.modules.energyelecmonth.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.abel533.echarts.json.GsonOption;
 import com.tp.ems.modules.energydevices.entity.EnergyDevices;
 import com.tp.ems.modules.energydevices.service.EnergyDevicesService;
 import com.tp.ems.modules.energyelecday.entity.EnergyElecDay;
 import com.tp.ems.modules.energyelecday.service.EnergyElecDayService;
-import com.tp.ems.modules.energyelecday.utils.HourElecComparator;
 import com.tp.ems.modules.energyelecmonth.utils.DayElecComparator;
+import com.tp.ems.modules.tools.JqueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import com.tp.ems.common.web.BaseController;
 import com.tp.ems.common.utils.StringUtils;
 import com.tp.ems.modules.energyelecmonth.entity.EnergyElecMonth;
 import com.tp.ems.modules.energyelecmonth.service.EnergyElecMonthService;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collections;
 import java.util.List;
@@ -86,6 +88,33 @@ public class EnergyElecMonthController extends BaseController {
     public String form(EnergyElecMonth energyElecMonth, Model model) {
         model.addAttribute("energyElecMonth", energyElecMonth);
         return "modules/energyelecmonth/energyElecMonthForm";
+    }
+
+    @RequestMapping(value = "showElecMonthChart")
+    public String showElecMonthChart(Model model){
+        List<EnergyDevices> devicesList = devicesService.findAllElecDevices();
+        model.addAttribute("deviceList", devicesList);
+        return "modules/energyelecmonth/energyElecMonthChart";
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "getElecMonthChart")
+    public JqueryResult drawDayChart(EnergyElecMonth energyElecMonth){
+        JqueryResult result = new JqueryResult();
+        EnergyElecDay energyElecDay = new EnergyElecDay();
+        energyElecDay.setDeviceId(energyElecMonth.getDeviceId());
+        energyElecDay.setDataTime(energyElecMonth.getDataTime());
+        if (StringUtils.isBlank(energyElecMonth.getDeviceId())) {
+            result.setFlag(false);
+            result.setMsg("获取信息失败");
+            return result;
+        }
+        List<EnergyElecDay> elecDays = elecDayService.findList(energyElecDay);
+        GsonOption option = elecDayService.genDayChart(energyElecDay,elecDays);
+        result.setFlag(true);
+        result.setOption(option);
+        return result;
     }
 
 }

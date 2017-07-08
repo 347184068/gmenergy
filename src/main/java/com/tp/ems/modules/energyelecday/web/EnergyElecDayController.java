@@ -3,6 +3,7 @@
  */
 package com.tp.ems.modules.energyelecday.web;
 
+import com.github.abel533.echarts.json.GsonOption;
 import com.tp.ems.common.persistence.Page;
 import com.tp.ems.common.utils.StringUtils;
 import com.tp.ems.common.web.BaseController;
@@ -13,12 +14,14 @@ import com.tp.ems.modules.energyelecday.service.EnergyElecDayService;
 import com.tp.ems.modules.energyelecday.utils.HourElecComparator;
 import com.tp.ems.modules.energyelechour.entity.EnergyElecHour;
 import com.tp.ems.modules.energyelechour.service.EnergyElecHourService;
+import com.tp.ems.modules.tools.JqueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,5 +81,32 @@ public class EnergyElecDayController extends BaseController {
 		return "modules/energyelecday/energyElecDayList";
 	}
 
+
+	@RequestMapping(value = "showElecDayChart")
+	public String showElecDayChart(Model model){
+		List<EnergyDevices> devicesList = devicesService.findAllElecDevices();
+		model.addAttribute("deviceList", devicesList);
+		return "modules/energyelecday/energyElecDayChart";
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "getElecDayChart")
+	public JqueryResult drawHourChart(EnergyElecDay energyElecDay){
+		JqueryResult result = new JqueryResult();
+		EnergyElecHour energyElecHour = new EnergyElecHour();
+		energyElecHour.setDeviceId(energyElecDay.getDeviceId());
+		energyElecHour.setDataTime(energyElecDay.getDataTime());
+		if(StringUtils.isBlank(energyElecDay.getDeviceId())){
+			result.setFlag(false);
+			result.setMsg("获取信息失败");
+			return result;
+		}
+		List<EnergyElecHour> elecHours = elecHourService.findList(energyElecHour);
+		GsonOption option = elecHourService.genHourChart(energyElecHour,elecHours);
+		result.setFlag(true);
+		result.setOption(option);
+		return result;
+	}
 
 }

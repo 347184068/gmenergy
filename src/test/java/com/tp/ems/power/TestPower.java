@@ -1,6 +1,8 @@
 package com.tp.ems.power;
 
 import com.github.abel533.echarts.json.GsonOption;
+import com.tp.ems.modules.energyelecmonitor.entity.EnergyElecRawdata;
+import com.tp.ems.modules.energyelecmonitor.service.EnergyElecRawdataService;
 import com.tp.ems.modules.poweranalysis.dao.ElecDataAmountDao;
 import com.tp.ems.modules.poweranalysis.dao.PowerAnalysisDao;
 import com.tp.ems.modules.poweranalysis.entity.ElecDataAmount;
@@ -37,6 +39,8 @@ public class TestPower {
     @Autowired
     private PowerAnalysisService powerAnalysisService;
 
+    @Autowired
+    private EnergyElecRawdataService elecRawdataService;
 
    /* @Test
     public void TestInsert(){
@@ -197,8 +201,18 @@ public class TestPower {
         System.out.println(yesterday);
         System.out.println(date);
 
+    }
 
-
+    @Test
+    public void testGetNewData(){
+        EnergyElecRawdata elecRawdata = new EnergyElecRawdata();
+        elecRawdata.setDeviceId("001");
+        elecRawdata.setCount(5);
+        List<EnergyElecRawdata> list = elecRawdataService.findNewDataByCount(elecRawdata);
+        System.out.println(list.size());
+        for(EnergyElecRawdata rawdata : list){
+            System.out.println(rawdata.toString());
+        }
     }
 
 }

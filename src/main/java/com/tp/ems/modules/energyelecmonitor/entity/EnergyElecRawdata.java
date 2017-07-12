@@ -21,7 +21,20 @@ public class EnergyElecRawdata extends DataEntity<EnergyElecRawdata> {
 	private static final long serialVersionUID = 1L;
 	private String deviceId;		// 设备ID
 	private String rawData;		// 设备采集原始数据
-	private Date dataTime;		// 采集数据时间
+	private String p;//瞬时有功功率
+	private String pF; //功率因数
+	private String aU;//a相电压
+	private String bU; //b相电压
+	private String cU; //c相电压
+	private String aI;//a相电流
+	private String bI; //b相电流
+	private String cI; //c相电流
+	private Date dataTime;		// 采集数 据时间
+
+
+	private Date startTime;
+
+	private Date endTime;
 
 
 	private Integer count;  //获取最新数据条数
@@ -52,11 +65,112 @@ public class EnergyElecRawdata extends DataEntity<EnergyElecRawdata> {
 		}
 		return value;
 	}
-
 	public void setRawData(String rawData) {
 		this.rawData = rawData;
 	}
-	
+	public String getP() {
+		String value = null;
+		if(this.p!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.p);
+			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		return value;
+	}
+
+	public void setP(String p) {
+		this.p = p;
+	}
+
+	public String getpF() {
+		String value = null;
+		if(this.pF!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.pF);
+			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		return value;
+	}
+
+	public void setpF(String pF) {
+		this.pF = pF;
+	}
+
+	public String getaU() {
+		String value = null;
+		if(this.aU!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.aU);
+			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		return value;
+	}
+
+	public void setaU(String aU) {
+		this.aU = aU;
+	}
+
+	public String getbU() {
+		String value = null;
+		if(this.bU!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.bU);
+			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		return value;
+	}
+
+	public void setbU(String bU) {
+		this.bU = bU;
+	}
+
+	public String getcU() {
+		String value = null;
+		if(this.cU!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.cU);
+			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		return value;
+	}
+
+	public void setcU(String cU) {
+		this.cU = cU;
+	}
+
+	public String getaI() {
+		String value = null;
+		if(this.aI!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.aI);
+			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		return value;
+	}
+
+	public void setaI(String aI) {
+		this.aI = aI;
+	}
+
+	public String getbI() {
+		String value = null;
+		if(this.bI!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.bI);
+			value = bigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		return value;
+	}
+
+	public void setbI(String bI) {
+		this.bI = bI;
+	}
+
+	public String getcI() {
+		String value = null;
+		if(this.cI!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.cI);
+			value = bigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		return value;
+	}
+
+	public void setcI(String cI) {
+		this.cI = cI;
+	}
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getDataTime() {
 		return dataTime;
@@ -75,13 +189,19 @@ public class EnergyElecRawdata extends DataEntity<EnergyElecRawdata> {
 	}
 
 
-	@Override
-	public String toString() {
-		return "EnergyElecRawdata{" +
-				"deviceId='" + deviceId + '\'' +
-				", rawData='" + rawData + '\'' +
-				", dataTime=" + dataTime +
-				", count=" + count +
-				'}';
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 }

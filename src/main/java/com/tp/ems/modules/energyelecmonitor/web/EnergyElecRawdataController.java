@@ -4,8 +4,11 @@
 package com.tp.ems.modules.energyelecmonitor.web;
 
 import com.github.abel533.echarts.json.GsonOption;
+import com.tp.ems.common.persistence.Page;
 import com.tp.ems.modules.energydevices.entity.EnergyDevices;
 import com.tp.ems.modules.energydevices.service.EnergyDevicesService;
+import com.tp.ems.modules.energyelecday.entity.EnergyElecDay;
+import com.tp.ems.modules.energyelechour.entity.EnergyElecHour;
 import com.tp.ems.modules.tools.JqueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,8 @@ import com.tp.ems.modules.energyelecmonitor.entity.EnergyElecRawdata;
 import com.tp.ems.modules.energyelecmonitor.service.EnergyElecRawdataService;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -73,6 +78,23 @@ public class EnergyElecRawdataController extends BaseController {
 		result.setFlag(true);
 		result.setOption(option);
 		return result;
+	}
+
+
+	/**
+	 *
+	 * 实时数据报表展示
+	 */
+	@RequestMapping(value = "rawDataReport")
+	public String showRawDataReport(EnergyElecRawdata elecRawdata, HttpServletRequest request, HttpServletResponse response, Model model){
+		List<EnergyDevices> devicesList = devicesService.findAllElecDevices();
+		model.addAttribute("deviceList",devicesList);
+		if(StringUtils.isBlank(elecRawdata.getDeviceId())){
+			return "modules/energyelecmonitor/energyElecRawdataReport";
+		}
+		Page<EnergyElecRawdata> page = rawdataService.findPage(new Page<EnergyElecRawdata>(request, response), elecRawdata);
+		model.addAttribute("page", page);
+		return "modules/energyelecmonitor/energyElecRawdataReport";
 	}
 
 

@@ -6,12 +6,14 @@ package com.tp.ems.modules.energywatermonth.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.abel533.echarts.json.GsonOption;
 import com.tp.ems.modules.energydevices.entity.EnergyDevices;
 import com.tp.ems.modules.energydevices.service.EnergyDevicesService;
 import com.tp.ems.modules.energywaterday.entity.EnergyWaterDay;
 import com.tp.ems.modules.energywaterday.service.EnergyWaterDayService;
 import com.tp.ems.modules.energywaterday.utils.HourWaterComparator;
 import com.tp.ems.modules.energywatermonth.utils.DayWaterComparator;
+import com.tp.ems.modules.tools.JqueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import com.tp.ems.common.web.BaseController;
 import com.tp.ems.common.utils.StringUtils;
 import com.tp.ems.modules.energywatermonth.entity.EnergyWaterMonth;
 import com.tp.ems.modules.energywatermonth.service.EnergyWaterMonthService;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collections;
 import java.util.List;
@@ -79,6 +82,34 @@ public class EnergyWaterMonthController extends BaseController {
 			model.addAttribute("avgMonthWater", DayWaterComparator.getCount(waterDays,"avg"));
 		}
 		return "modules/energywatermonth/energyWaterMonthList";
+	}
+
+
+	@RequestMapping(value = "showWaterMonthChart")
+	public String showWaterMonthChart(Model model){
+		List<EnergyDevices> devicesList = devicesService.findAllWaterDevices();
+		model.addAttribute("deviceList",devicesList);
+		return "modules/energywatermonth/energyWaterMonthChart";
+	}
+
+
+	@ResponseBody
+	@RequestMapping(value = "getWaterMonthChart")
+	public JqueryResult getWaterMonthChart(EnergyWaterMonth energyWaterMonth){
+		JqueryResult result = new JqueryResult();
+		EnergyWaterDay waterDay = new EnergyWaterDay();
+		waterDay.setDeviceId(energyWaterMonth.getDeviceId());
+		waterDay.setDataTime(energyWaterMonth.getDataTime());
+		if(StringUtils.isBlank(energyWaterMonth.getDeviceId())){
+			result.setFlag(false);
+			result.setMsg("获取信息失败");
+			return result;
+		}
+		List<EnergyWaterDay> waterDays = waterDayService.findList(waterDay);
+		GsonOption option = waterDayService.genDayChart(waterDay,waterDays);
+		result.setFlag(true);
+		result.setOption(option);
+		return result;
 	}
 
 }

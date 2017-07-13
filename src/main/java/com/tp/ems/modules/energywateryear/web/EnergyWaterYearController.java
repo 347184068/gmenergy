@@ -6,12 +6,17 @@ package com.tp.ems.modules.energywateryear.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.github.abel533.echarts.json.GsonOption;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.tp.ems.modules.energydevices.entity.EnergyDevices;
 import com.tp.ems.modules.energydevices.service.EnergyDevicesService;
+import com.tp.ems.modules.energyelecmonth.entity.EnergyElecMonth;
 import com.tp.ems.modules.energyelecyear.utils.MonthElecComparator;
 import com.tp.ems.modules.energywatermonth.entity.EnergyWaterMonth;
 import com.tp.ems.modules.energywatermonth.service.EnergyWaterMonthService;
 import com.tp.ems.modules.energywateryear.utils.MonthWaterComparator;
+import com.tp.ems.modules.tools.JqueryResult;
+import org.apache.poi.ss.formula.functions.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +29,7 @@ import com.tp.ems.common.web.BaseController;
 import com.tp.ems.common.utils.StringUtils;
 import com.tp.ems.modules.energywateryear.entity.EnergyWaterYear;
 import com.tp.ems.modules.energywateryear.service.EnergyWaterYearService;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collections;
 import java.util.List;
@@ -81,5 +87,32 @@ public class EnergyWaterYearController extends BaseController {
 		return "modules/energywateryear/energyWaterYearList";
 	}
 
+
+
+	@RequestMapping(value = "showWaterYearChart")
+	public String showWaterYearChart(Model model){
+		List<EnergyDevices> devicesList = devicesService.findAllWaterDevices();
+		model.addAttribute("deviceList",devicesList);
+		return "modules/energywateryear/energyWaterYearChart";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "getWaterYearChart")
+	public JqueryResult getWaterYearChart(EnergyWaterYear energyWaterYear){
+		JqueryResult result = new JqueryResult();
+		EnergyWaterMonth waterMonth = new EnergyWaterMonth();
+		waterMonth.setDeviceId(energyWaterYear.getDeviceId());
+		waterMonth.setDataYear(energyWaterYear.getSelectYear());
+		if(StringUtils.isBlank(energyWaterYear.getDeviceId())){
+			result.setFlag(false);
+			result.setMsg("获取信息失败");
+			return result;
+		}
+		List<EnergyWaterMonth> waterMonths = waterMonthService.findList(waterMonth);
+		GsonOption option = waterMonthService.genMonthChart(waterMonth,waterMonths);
+		result.setFlag(true);
+		result.setOption(option);
+		return result;
+	}
 
 }

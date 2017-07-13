@@ -43,6 +43,7 @@ public class EnergyDevicesService extends CrudService<EnergyDevicesDao, EnergyDe
 	public void delete(EnergyDevices energyDevices) {
 		super.delete(energyDevices);
 	}
+
 	public List<EnergyDevices> findAllElecDevices(){
 		EnergyDevices energyDevices = new EnergyDevices();
 		energyDevices.setType("0");

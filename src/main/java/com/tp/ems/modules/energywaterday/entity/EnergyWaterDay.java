@@ -4,6 +4,8 @@
 package com.tp.ems.modules.energywaterday.entity;
 
 import org.hibernate.validator.constraints.Length;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -40,7 +42,12 @@ public class EnergyWaterDay extends DataEntity<EnergyWaterDay> {
 	
 	@Length(min=1, max=100, message="设备采集一天的耗水数据长度必须介于 1 和 100 之间")
 	public String getData() {
-		return data;
+		String value = null;
+		if(this.data!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.data);
+			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		return value;
 	}
 
 	public void setData(String data) {

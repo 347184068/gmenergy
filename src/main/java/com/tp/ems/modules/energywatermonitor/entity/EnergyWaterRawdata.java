@@ -1,7 +1,7 @@
 /**
  * Copyright &copy; 2012-2014 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
  */
-package com.tp.ems.modules.energywaterhour.entity;
+package com.tp.ems.modules.energywatermonitor.entity;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -12,22 +12,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tp.ems.common.persistence.DataEntity;
 
 /**
- * 水表每小时数据Entity
+ * 电表在线监控Entity
  * @author 徐韵轩
- * @version 2017-06-26
+ * @version 2017-07-13
  */
-public class EnergyWaterHour extends DataEntity<EnergyWaterHour> {
+public class EnergyWaterRawdata extends DataEntity<EnergyWaterRawdata> {
 	
 	private static final long serialVersionUID = 1L;
 	private String deviceId;		// 设备ID
-	private String data;		// 设备采集一小时耗水数据
+	private String rawData;		// 设备采集原始数据
 	private Date dataTime;		// 采集数据时间
+
+	private Integer count ;
 	
-	public EnergyWaterHour() {
+	public EnergyWaterRawdata() {
 		super();
 	}
 
-	public EnergyWaterHour(String id){
+	public EnergyWaterRawdata(String id){
 		super(id);
 	}
 
@@ -40,18 +42,18 @@ public class EnergyWaterHour extends DataEntity<EnergyWaterHour> {
 		this.deviceId = deviceId;
 	}
 	
-	@Length(min=1, max=100, message="设备采集一小时耗水数据长度必须介于 1 和 100 之间")
-	public String getData() {
+	@Length(min=1, max=100, message="设备采集原始数据长度必须介于 1 和 100 之间")
+	public String getRawData() {
 		String value = null;
-		if(this.data!=null){
-			BigDecimal bigDecimal = new BigDecimal(this.data);
+		if(this.rawData!=null){
+			BigDecimal bigDecimal = new BigDecimal(this.rawData);
 			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
 		}
 		return value;
 	}
 
-	public void setData(String data) {
-		this.data = data;
+	public void setRawData(String rawData) {
+		this.rawData = rawData;
 	}
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -62,5 +64,12 @@ public class EnergyWaterHour extends DataEntity<EnergyWaterHour> {
 	public void setDataTime(Date dataTime) {
 		this.dataTime = dataTime;
 	}
-	
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
 }

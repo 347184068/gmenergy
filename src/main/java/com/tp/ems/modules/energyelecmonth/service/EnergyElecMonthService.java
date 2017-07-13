@@ -73,7 +73,7 @@ public class EnergyElecMonthService extends CrudService<EnergyElecMonthDao, Ener
         GsonOption option = new GsonOption();
         String optionLegend = titleConvert(energyElecMonth, "电量");
         double sum = MonthElecComparator.getCount(elecMonths, "sum");
-        option.title().text(optionLegend).subtext("总电量：" + sum).left(X.center);
+        option.title().text(optionLegend).subtext("总电量：" + sum+"(kWh)").left(X.center);
         option.tooltip().trigger(Trigger.axis).axisPointer().type(PointerType.shadow);
         option.legend().data("电量").left(X.left);
         option.toolbox().show(true).right(X.right).feature(new MagicType(Magic.bar, Magic.line));

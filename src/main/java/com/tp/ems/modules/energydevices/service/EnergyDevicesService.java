@@ -22,6 +22,10 @@ import com.tp.ems.modules.energydevices.dao.EnergyDevicesDao;
 @Transactional(readOnly = true)
 public class EnergyDevicesService extends CrudService<EnergyDevicesDao, EnergyDevices> {
 
+	public static final String ELEC_DEVICE = "0";
+
+	public static final String WATER_DEVICE = "1";
+
 	public EnergyDevices get(String id) {
 		return super.get(id);
 	}
@@ -46,13 +50,13 @@ public class EnergyDevicesService extends CrudService<EnergyDevicesDao, EnergyDe
 
 	public List<EnergyDevices> findAllElecDevices(){
 		EnergyDevices energyDevices = new EnergyDevices();
-		energyDevices.setType("0");
+		energyDevices.setType(ELEC_DEVICE);
 		return findList(energyDevices);
 	}
 
 	public List<EnergyDevices> findAllWaterDevices(){
 		EnergyDevices energyDevices = new EnergyDevices();
-		energyDevices.setType("1");
+		energyDevices.setType(WATER_DEVICE);
 		return findList(energyDevices);
 	}
 

@@ -181,8 +181,9 @@ public class EnergyDevicesController extends BaseController {
             result.setMonthFlag(true);
             result.setMonthOption(option);
             result.setMonthLimit(monthLimit);
-            BigDecimal b = BigDecimal.valueOf(monthSum).divide(BigDecimal.valueOf(Double.parseDouble(monthLimit)), 2, BigDecimal.ROUND_HALF_UP);
+            BigDecimal b = BigDecimal.valueOf(monthSum).divide(BigDecimal.valueOf(Double.parseDouble(monthLimit)), 5, BigDecimal.ROUND_HALF_UP);
             b = b.multiply(BigDecimal.valueOf(100));
+            b = b.setScale(2,BigDecimal.ROUND_HALF_UP);
             result.setMonthPercent(b.toString() + "%");
         }
         if (StringUtils.isBlank(yearLimit)) {
@@ -195,8 +196,9 @@ public class EnergyDevicesController extends BaseController {
             result.setYearFlag(true);
             result.setYearOption(option);
             result.setYearLimit(yearLimit);
-            BigDecimal b = BigDecimal.valueOf(yearSum).divide(BigDecimal.valueOf(Double.parseDouble(yearLimit)), 2, BigDecimal.ROUND_HALF_UP);
+            BigDecimal b = BigDecimal.valueOf(yearSum).divide(BigDecimal.valueOf(Double.parseDouble(yearLimit)), 5, BigDecimal.ROUND_HALF_UP);
             b = b.multiply(BigDecimal.valueOf(100));
+            b = b.setScale(2,BigDecimal.ROUND_HALF_UP);
             result.setYearPercent(b.toString() + "%");
         }
         result.setMonthSum(monthSum);

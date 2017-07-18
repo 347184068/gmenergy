@@ -17,7 +17,7 @@ import java.util.List;
  * @Date 2017/6/27 19:32
  */
 @Controller
-@RequestMapping(value = "/energyAnalysis/elec")
+@RequestMapping(value = "${adminPath}/energyAnalysis/elec")
 public class EnergyElecController extends BaseController {
 
     @Autowired

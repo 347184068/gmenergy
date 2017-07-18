@@ -141,13 +141,15 @@ public class EnergyDevicesController extends BaseController {
     public LimitResult showElecLimit(String deviceId, Date inDate) {
         LimitResult result = new LimitResult();
         EnergyDevices devices = devicesService.getDeviceByDeviceId(deviceId);
-        String monthLimit = devices.getMonthLimit();
-        String yearLimit = devices.getYearLimit();
-        List<EnergyElecDay> dayList = elecDayService.findByMonth(deviceId, inDate);
-        List<EnergyElecMonth> monthList = elecMonthService.findByYear(deviceId, inDate);
-        double monthSum = DayElecComparator.getCount(dayList, "sum");
-        double yearSum = MonthElecComparator.getCount(monthList, "sum");
-        setChartParam(result, monthLimit, yearLimit, monthSum, yearSum);
+        if (devices != null) {
+            String monthLimit = devices.getMonthLimit();
+            String yearLimit = devices.getYearLimit();
+            List<EnergyElecDay> dayList = elecDayService.findByMonth(deviceId, inDate);
+            List<EnergyElecMonth> monthList = elecMonthService.findByYear(deviceId, inDate);
+            double monthSum = DayElecComparator.getCount(dayList, "sum");
+            double yearSum = MonthElecComparator.getCount(monthList, "sum");
+            setChartParam(result, monthLimit, yearLimit, monthSum, yearSum);
+        }
         return result;
     }
 
@@ -157,16 +159,20 @@ public class EnergyDevicesController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "showWaterLimit")
-    public LimitResult showWaterLimit(String deviceId, Date inDate){
+    public LimitResult showWaterLimit(String deviceId, Date inDate) {
         LimitResult result = new LimitResult();
         EnergyDevices devices = devicesService.getDeviceByDeviceId(deviceId);
-        String monthLimit = devices.getMonthLimit();
-        String yearLimit = devices.getYearLimit();
-        List<EnergyWaterDay> dayList = waterDayService.findByMonth(deviceId, inDate);
-        List<EnergyWaterMonth> monthList = waterMonthService.findByYear(deviceId, inDate);
-        double monthSum = DayWaterComparator.getCount(dayList, "sum");
-        double yearSum = MonthWaterComparator.getCount(monthList, "sum");
-        setChartParam(result, monthLimit, yearLimit, monthSum, yearSum);
+        if (devices != null) {
+            String monthLimit = devices.getMonthLimit();
+            String yearLimit = devices.getYearLimit();
+            List<EnergyWaterDay> dayList = waterDayService.findByMonth(deviceId, inDate);
+            List<EnergyWaterMonth> monthList = waterMonthService.findByYear(deviceId, inDate);
+            double monthSum = DayWaterComparator.getCount(dayList, "sum");
+            double yearSum = MonthWaterComparator.getCount(monthList, "sum");
+            setChartParam(result, monthLimit, yearLimit, monthSum, yearSum);
+        }
+
+
         return result;
     }
 
@@ -183,7 +189,7 @@ public class EnergyDevicesController extends BaseController {
             result.setMonthLimit(monthLimit);
             BigDecimal b = BigDecimal.valueOf(monthSum).divide(BigDecimal.valueOf(Double.parseDouble(monthLimit)), 5, BigDecimal.ROUND_HALF_UP);
             b = b.multiply(BigDecimal.valueOf(100));
-            b = b.setScale(2,BigDecimal.ROUND_HALF_UP);
+            b = b.setScale(2, BigDecimal.ROUND_HALF_UP);
             result.setMonthPercent(b.toString() + "%");
         }
         if (StringUtils.isBlank(yearLimit)) {
@@ -198,7 +204,7 @@ public class EnergyDevicesController extends BaseController {
             result.setYearLimit(yearLimit);
             BigDecimal b = BigDecimal.valueOf(yearSum).divide(BigDecimal.valueOf(Double.parseDouble(yearLimit)), 5, BigDecimal.ROUND_HALF_UP);
             b = b.multiply(BigDecimal.valueOf(100));
-            b = b.setScale(2,BigDecimal.ROUND_HALF_UP);
+            b = b.setScale(2, BigDecimal.ROUND_HALF_UP);
             result.setYearPercent(b.toString() + "%");
         }
         result.setMonthSum(monthSum);

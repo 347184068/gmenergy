@@ -3,6 +3,7 @@
  */
 package com.tp.ems.modules.energyelecmonth.entity;
 
+import com.tp.ems.modules.tools.RoundUtils;
 import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
@@ -22,6 +23,12 @@ public class EnergyElecMonth extends DataEntity<EnergyElecMonth> {
 	private String deviceId;		// 设备ID
 	private String data;		// 设备采集一个月耗电数据
 	private Date dataTime;		// 采集数据时间
+
+	private String deviceName; //设备名称
+
+	private Integer ratio;//设备倍率
+
+	private String realData; //真实电量  =  倍率* 数据
 
 	private String dataYear;
 	
@@ -46,8 +53,7 @@ public class EnergyElecMonth extends DataEntity<EnergyElecMonth> {
 	public String getData() {
 		String value = null;
 		if(this.data!=null){
-			BigDecimal bigDecimal = new BigDecimal(this.data);
-			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+			value = RoundUtils.round(2,this.data);
 		}
 		return value;
 	}
@@ -71,5 +77,38 @@ public class EnergyElecMonth extends DataEntity<EnergyElecMonth> {
 
 	public void setDataYear(String dataYear) {
 		this.dataYear = dataYear;
+	}
+
+	public String getDeviceName() {
+		return deviceName;
+	}
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
+	public Integer getRatio() {
+		return ratio;
+	}
+
+	public void setRatio(Integer ratio) {
+		this.ratio = ratio;
+	}
+
+	public String getRealData() {
+		String value = null;
+		if (this.data != null) {
+			BigDecimal bigDecimal = new BigDecimal(this.data);
+			if (this.ratio == null || this.ratio == 0) {
+				this.ratio = 1;
+			}
+			value = bigDecimal.multiply(BigDecimal.valueOf(this.ratio)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		this.realData = value;
+		return realData;
+	}
+
+	public void setRealData(String realData) {
+		this.realData = realData;
 	}
 }

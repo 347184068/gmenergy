@@ -3,6 +3,7 @@
  */
 package com.tp.ems.modules.energywaterhour.entity;
 
+import com.tp.ems.modules.tools.RoundUtils;
 import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
@@ -44,8 +45,7 @@ public class EnergyWaterHour extends DataEntity<EnergyWaterHour> {
 	public String getData() {
 		String value = null;
 		if(this.data!=null){
-			BigDecimal bigDecimal = new BigDecimal(this.data);
-			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+			value = RoundUtils.round(2,this.data);
 		}
 		return value;
 	}

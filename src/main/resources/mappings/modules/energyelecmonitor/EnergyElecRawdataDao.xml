@@ -20,10 +20,13 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		b.name AS "deviceName",
+		b.ratio AS "ratio"
 	</sql>
 	
 	<sql id="energyElecRawdataJoins">
+		LEFT JOIN energy_devices b ON b.deviceid = a.deviceid
 	</sql>
 
 	<select id="findNewData" resultType="EnergyElecRawdata">

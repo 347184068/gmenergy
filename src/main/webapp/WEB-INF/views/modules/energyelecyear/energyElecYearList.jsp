@@ -36,7 +36,7 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>监测点：</label>
+			<li><label>监测设备：</label>
 				<form:select items="${deviceList}"  itemLabel="name" itemValue="deviceId"
 							 path="deviceId" htmlEscape="false" maxlength="11" class="input-medium"/>
 				<fmt:formatDate value="${now}" type="both" dateStyle="long" pattern="yyyy" var="date"/>
@@ -55,13 +55,13 @@
 		<thead>
 		<tr>
 			<th colspan="2">年电量最大值(度)</th>
-			<th>${maxMonthElec.data}</th>
+			<th>${maxMonthElec.realData}</th>
 			<th>出现时间(月)</th>
 			<th><fmt:formatDate value="${maxMonthElec.dataTime}" pattern="MM" type="both" /></th>
 		</tr>
 		<tr>
 			<th colspan="2">年电量最小值(度)</th>
-			<th>${minMonthElec.data}</th>
+			<th>${minMonthElec.realData}</th>
 			<th>出现时间(月)</th>
 			<th><fmt:formatDate value="${minMonthElec.dataTime}" pattern="MM" type="both" /></th>
 		</tr>
@@ -75,14 +75,18 @@
 		</tr>
 		<tr>
 			<th colspan="1">时间(月)</th>
-			<th colspan="4">用电量(度)</th>
+			<th colspan="1">电表显示值(度)</th>
+			<th colspan="1">倍率</th>
+			<th colspan="2">用电量(度)</th>
 		</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="elecMonth">
 			<tr>
 				<td colspan="1"><fmt:formatDate value="${elecMonth.dataTime}"  pattern="MM" type="both"/></td>
-				<td colspan="4">${elecMonth.data}</td>
+				<td colspan="1">${elecMonth.data}</td>
+				<td colspan="1">${elecMonth.ratio}</td>
+				<td colspan="2">${elecMonth.realData}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

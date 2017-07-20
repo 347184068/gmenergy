@@ -86,7 +86,7 @@ public class EnergyElecHourService extends CrudService<EnergyElecHourDao, Energy
         for(EnergyElecHour hour:elecHours){
             String strDate  = sdf.format(hour.getDataTime());
             category.data(strDate);
-            bar.data(hour.getData());
+            bar.data(hour.getRealData());
         }
         option.xAxis(category);
         option.series(bar);

@@ -3,6 +3,7 @@
  */
 package com.tp.ems.modules.energywatermonitor.entity;
 
+import com.tp.ems.modules.tools.RoundUtils;
 import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
@@ -46,8 +47,7 @@ public class EnergyWaterRawdata extends DataEntity<EnergyWaterRawdata> {
 	public String getRawData() {
 		String value = null;
 		if(this.rawData!=null){
-			BigDecimal bigDecimal = new BigDecimal(this.rawData);
-			value = bigDecimal.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+			value = RoundUtils.round(2,this.rawData);
 		}
 		return value;
 	}

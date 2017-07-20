@@ -4,6 +4,8 @@
 package com.tp.ems.modules.energyelecyear.entity;
 
 import org.hibernate.validator.constraints.Length;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -20,6 +22,12 @@ public class EnergyElecYear extends DataEntity<EnergyElecYear> {
 	private String deviceId;		// 设备ID
 	private String data;		// 设备采集一年的耗电数据
 	private Date dataTime;		// 采集数据时间
+
+	private String deviceName; //设备名称
+
+	private Integer ratio;//设备倍率
+
+	private String realData; //真实电量  =  倍率* 数据
 
 	private String selectYear;
 	
@@ -64,5 +72,38 @@ public class EnergyElecYear extends DataEntity<EnergyElecYear> {
 
 	public void setSelectYear(String selectYear) {
 		this.selectYear = selectYear;
+	}
+
+	public String getDeviceName() {
+		return deviceName;
+	}
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
+	public Integer getRatio() {
+		return ratio;
+	}
+
+	public void setRatio(Integer ratio) {
+		this.ratio = ratio;
+	}
+
+	public String getRealData() {
+		String value = null;
+		if (this.data != null) {
+			BigDecimal bigDecimal = new BigDecimal(this.data);
+			if (this.ratio == null || this.ratio == 0) {
+				this.ratio = 1;
+			}
+			value = bigDecimal.multiply(BigDecimal.valueOf(this.ratio)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+"";
+		}
+		this.realData = value;
+		return realData;
+	}
+
+	public void setRealData(String realData) {
+		this.realData = realData;
 	}
 }

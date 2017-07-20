@@ -46,7 +46,7 @@
 <body>
 <form:form id="searchForm" modelAttribute="energyElecYear" class="breadcrumb form-search">
     <ul class="ul-form">
-        <li><label>监测点：</label>
+        <li><label>监测设备：</label>
             <form:select items="${deviceList}" id="deviceId" itemLabel="name" itemValue="deviceId"
                          path="deviceId" htmlEscape="false" maxlength="11" class="input-medium"/>
             <c:set var="now" value="<%=new Date()%>"/>

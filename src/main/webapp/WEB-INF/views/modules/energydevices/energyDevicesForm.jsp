@@ -27,7 +27,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-	<li><a href="${ctx}/energydevices/energyDevices?type=1">设备列表</a></li>
+	<li><a href="${ctx}/energydevices/energyDevices?type=0">设备列表</a></li>
 	<li class="active"><a href="${ctx}/energydevices/energyDevices/form?id=${energyDevices.id}">设备${not empty energyDevices.id?'修改':'添加'}</a></li>
 </ul><br/>
 	<form:form id="inputForm" modelAttribute="energyDevices" action="${ctx}/energydevices/energyDevices/save" method="post" class="form-horizontal">
@@ -53,6 +53,12 @@
 				<form:select path="type" class="input-xlarge ">
 					<form:options items="${fns:getDictList('devices_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">倍率：</label>
+			<div class="controls">
+				<form:input path="ratio" htmlEscape="false" maxlength="255" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">

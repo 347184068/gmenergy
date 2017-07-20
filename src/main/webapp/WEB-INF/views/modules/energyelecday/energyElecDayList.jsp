@@ -36,7 +36,7 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>监测点：</label>
+			<li><label>监测设备：</label>
 				<form:select items="${deviceList}"  itemLabel="name" itemValue="deviceId"
 							 path="deviceId" htmlEscape="false" maxlength="11" class="input-medium"/>
                 <c:set var="now" value="<%=new Date()%>" />
@@ -55,13 +55,13 @@
 		<thead>
 		<tr>
 			<th colspan="2">日电量最大值(度)</th>
-			<th>${maxDayElec.data}</th>
+			<th>${maxDayElec.realData}</th>
 			<th>出现时间(小时)</th>
 			<th><fmt:formatDate value="${maxDayElec.dataTime}" type="both" /></th>
 		</tr>
 		<tr>
 			<th colspan="2">日电量最小值(度)</th>
-			<th>${minDayElec.data}</th>
+			<th>${minDayElec.realData}</th>
 			<th>出现时间(小时)</th>
 			<th><fmt:formatDate value="${minDayElec.dataTime}" type="both" /></th>
 		</tr>
@@ -75,14 +75,18 @@
 		</tr>
 		<tr>
 			<th colspan="1">时间(小时)</th>
-			<th colspan="4">用电量(度)</th>
+			<th colspan="1">电表显示值(度)</th>
+			<th colspan="1">倍率</th>
+			<th colspan="2">用电量(度)</th>
 		</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${page.list}" var="elecHour">
 			<tr>
 				<td colspan="1"><fmt:formatDate value="${elecHour.dataTime}" type="both"/></td>
-				<td colspan="4">${elecHour.data}</td>
+				<td colspan="1">${elecHour.data}</td>
+				<td colspan="1">${elecHour.ratio}</td>
+				<td colspan="2">${elecHour.realData}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

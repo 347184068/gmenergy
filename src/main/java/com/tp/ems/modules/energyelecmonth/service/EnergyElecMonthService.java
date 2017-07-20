@@ -95,7 +95,7 @@ public class EnergyElecMonthService extends CrudService<EnergyElecMonthDao, Ener
         for (EnergyElecMonth month : elecMonths) {
             String strDate = sdf.format(month.getDataTime());
             category.data(strDate);
-            bar.data(month.getData());
+            bar.data(month.getRealData());
         }
         option.xAxis(category);
         option.series(bar);

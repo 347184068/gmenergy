@@ -18,6 +18,7 @@ public class EnergyDevices extends DataEntity<EnergyDevices> {
 	private String deviceId;		// 真实设备编号
 	private String type;		// 设备类型0电表，水表
 	private String name;		// 名称
+	private Integer ratio;
 	private String monthLimit;		// 月限定额度
 	private String yearLimit;		// 年限额
 	
@@ -73,5 +74,12 @@ public class EnergyDevices extends DataEntity<EnergyDevices> {
 	public void setYearLimit(String yearLimit) {
 		this.yearLimit = yearLimit;
 	}
-	
+
+	public Integer getRatio() {
+		return ratio;
+	}
+
+	public void setRatio(Integer ratio) {
+		this.ratio = ratio;
+	}
 }

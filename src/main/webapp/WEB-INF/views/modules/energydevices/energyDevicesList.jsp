@@ -18,7 +18,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li class="active"><a href="${ctx}/energydevices/energyDevices?type=1">设备列表</a></li>
+    <li class="active"><a href="${ctx}/energydevices/energyDevices">设备列表</a></li>
     <li><a href="${ctx}/energydevices/energyDevices/form">设备添加</a></li>
 </ul>
 	<form:form id="searchForm" modelAttribute="energyDevices" action="${ctx}/energydevices/energyDevices/" method="post" class="breadcrumb form-search">
@@ -47,6 +47,7 @@
                 <th>设备ID</th>
                 <th>名称</th>
                 <th>设备类型</th>
+				<th>倍率</th>
 				<th>月限额</th>
 				<th>年限额</th>
 				<th>操作</th>
@@ -61,8 +62,11 @@
                 <td>${energyDevices.name}
                 </td>
                 <td>
-                        ${fns:getDictLabels(energyDevices.type,'devices_type','1')}
+                        ${fns:getDictLabel(energyDevices.type,'devices_type','0')}
                 </td>
+				<td>
+						${energyDevices.ratio eq null ? "1":energyDevices.ratio}
+				</td>
 				<td>
 					${energyDevices.monthLimit}
 				</td>

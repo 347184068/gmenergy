@@ -18,7 +18,7 @@ public class HourElecComparator implements Comparator<EnergyElecHour> {
 
     @Override
     public int compare(EnergyElecHour o1, EnergyElecHour o2) {
-        return (Double.parseDouble(o1.getData()) < Double.parseDouble(o2.getData()) ? -1 : (Double.parseDouble(o1.getData()) == Double.parseDouble(o2.getData()) ? 0 : 1));
+        return (Double.parseDouble(o1.getRealData()) < Double.parseDouble(o2.getRealData()) ? -1 : (Double.parseDouble(o1.getRealData()) == Double.parseDouble(o2.getRealData()) ? 0 : 1));
     }
 
     /**
@@ -30,7 +30,7 @@ public class HourElecComparator implements Comparator<EnergyElecHour> {
     public static double getCount(List<EnergyElecHour> energyElecHours, String type) {
         BigDecimal res = BigDecimal.ZERO;
         for (EnergyElecHour e : energyElecHours) {
-            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getData())));
+            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getRealData())));
         }
         if ("sum".equals(type)) {
             return res.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

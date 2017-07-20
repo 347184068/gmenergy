@@ -14,7 +14,7 @@ import java.util.List;
 public class DayElecComparator implements Comparator<EnergyElecDay> {
     @Override
     public int compare(EnergyElecDay o1, EnergyElecDay o2) {
-        return (Double.parseDouble(o1.getData()) < Double.parseDouble(o2.getData()) ? -1 : (Double.parseDouble(o1.getData()) == Double.parseDouble(o2.getData()) ? 0 : 1));
+        return (Double.parseDouble(o1.getRealData()) < Double.parseDouble(o2.getRealData()) ? -1 : (Double.parseDouble(o1.getRealData()) == Double.parseDouble(o2.getRealData()) ? 0 : 1));
     }
 
     /**
@@ -26,7 +26,7 @@ public class DayElecComparator implements Comparator<EnergyElecDay> {
     public static double getCount(List<EnergyElecDay> energyElecDays, String type) {
         BigDecimal res = BigDecimal.ZERO;
         for (EnergyElecDay e : energyElecDays) {
-            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getData())));
+            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getRealData())));
         }
         if ("sum".equals(type)) {
             return res.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

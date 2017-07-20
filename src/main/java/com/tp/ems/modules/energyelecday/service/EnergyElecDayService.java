@@ -93,7 +93,7 @@ public class EnergyElecDayService extends CrudService<EnergyElecDayDao, EnergyEl
 		for(EnergyElecDay day:elecDays){
 			String strDate  = sdf.format(day.getDataTime());
 			category.data(strDate);
-			bar.data(day.getData());
+			bar.data(day.getRealData());
 		}
 		option.xAxis(category);
 		option.series(bar);

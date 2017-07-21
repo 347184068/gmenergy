@@ -27,17 +27,8 @@
            action="${ctx}/energyelecmonitor/energyElecRawdata/getRealData" method="post"
            class="breadcrumb form-search">
     <ul class="ul-form">
-        <li><label>监测设备：</label>
-            <form:select items="${deviceList}" itemLabel="name" itemValue="deviceId"
-                         path="deviceId" htmlEscape="false" maxlength="11" class="input-medium"/>
-            <c:set var="now" value="<%=new Date()%>"/>
-        </li>
-        <li><label>获取条数：</label>
-            <input id="count" name="count" value="${energyElecRawdata.count eq null ? "" : energyElecRawdata.count}" placeholder="默认10条" type="text" maxlength="20" class="input-small"/>
-            条
-        </li>
         <li><label>刷新频率：</label>
-            <input id="timeInterval" name="timeInterval" type="text" maxlength="20" class="input-small" value="${energyElecRawdata.timeInterval eq null ? "" : energyElecRawdata.timeInterval}"/>
+            <input id="timeInterval" placeholder="默认10秒" name="timeInterval" type="text" maxlength="20" class="input-small" value="${energyElecRawdata.timeInterval eq null ? "" : energyElecRawdata.timeInterval}"/>
             秒
         </li>
         <li class="btns"><input id="btnSubmit" class="btn btn-primary" style="width: 56px;" value="手动刷新"/></li>

@@ -8,7 +8,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#btnSubmit").click(function () {
-                if (validateChooseDate()) {
+                if(validateChooseDate()){
                     $("#searchForm").attr("action","${ctx}/energyelecmonitor/energyElecRawdata/rawDataReport");
                     $("#searchForm").submit();
                 }
@@ -24,25 +24,14 @@
                     top.$('.jbox-body .jbox-icon').css('top','55px');
                 }
             });
+
             function validateChooseDate() {
-                var startDate = $("#startTime").val();
                 var endDate = $("#endTime").val();
-                if (startDate == "" || startDate == null) {
-                    alert("请选择开始时间！");
-                    return false;
-                }
                 if (endDate == "" || endDate == null) {
-                    alert("请选择结束时间！");
+                    alert("请选择时间！");
                     return false;
                 }
-                var start=new Date(startDate.replace("-", "/").replace("-", "/"));
-                var end=new Date(endDate.replace("-", "/").replace("-", "/"));
-                if (start<=end) {
-                    return true;
-                }else{
-                    alert("结束时间必须晚于开始时间！");
-                    return false;
-                }
+                return true;
             }
         });
         function page(n, s) {
@@ -76,17 +65,7 @@
         <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
         <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
         <ul class="ul-form">
-            <li><label>监测设备：</label>
-                <form:select items="${deviceList}" itemLabel="name" itemValue="deviceId"
-                             path="deviceId" htmlEscape="false" maxlength="11" class="input-medium"/>
-                <c:set var="now" value="<%=new Date()%>"/>
-            </li>
-            <li><label>开始时间：</label>
-                <input id="startTime" name="startTime" type="text" maxlength="20" class="input-medium Wdate"
-                       value="<fmt:formatDate value="${not empty energyElecRawdata.startTime ? energyElecRawdata.startTime:now}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-            </li>
-            <li><label>结束时间：</label>
+            <li><label>选择时间：</label>
                 <input id="endTime" name="endTime" type="text" maxlength="20" class="input-medium Wdate"
                        value="<fmt:formatDate value="${not empty energyElecRawdata.endTime ? energyElecRawdata.endTime:now}" pattern="yyyy-MM-dd HH:mm:ss"/>"
                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>

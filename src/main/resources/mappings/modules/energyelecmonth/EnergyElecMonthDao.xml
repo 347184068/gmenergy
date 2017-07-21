@@ -45,6 +45,7 @@
 			<if test="dataYear != null and dataYear != ''">
 				AND a.datatime LIKE CONCAT(#{dataYear},'%' )
 			</if>
+			AND b.type = 0
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

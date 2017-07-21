@@ -39,6 +39,7 @@
 			<if test="deviceId != null and deviceId != ''">
 				AND a.deviceid = #{deviceId}
 			</if>
+			AND b.type = 0
 		</where>
 		ORDER BY a.datatime DESC
 		<if test="count != null and count != ''">
@@ -70,6 +71,7 @@
 			<if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
 				AND a.datatime BETWEEN  #{startTime} and  #{endTime}
 			</if>
+			AND b.type = 0
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

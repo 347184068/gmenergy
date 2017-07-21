@@ -42,6 +42,7 @@
 			<if test="dataTime != null and dataTime != ''">
 				AND a.datatime LIKE CONCAT(DATE_FORMAT(#{dataTime}, '%Y-%m-%d'),'%' )
 			</if>
+			AND b.type = 0
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">

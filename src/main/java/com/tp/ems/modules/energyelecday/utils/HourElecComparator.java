@@ -29,8 +29,11 @@ public class HourElecComparator implements Comparator<EnergyElecHour> {
      */
     public static double getCount(List<EnergyElecHour> energyElecHours, String type) {
         BigDecimal res = BigDecimal.ZERO;
+        if(energyElecHours == null){
+            return 0;
+        }
         for (EnergyElecHour e : energyElecHours) {
-            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getRealData())));
+            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getRealData()==null ? "0":e.getRealData())));
         }
         if ("sum".equals(type)) {
             return res.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

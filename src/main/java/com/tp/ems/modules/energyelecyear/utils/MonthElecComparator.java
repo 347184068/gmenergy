@@ -27,8 +27,11 @@ public class MonthElecComparator implements Comparator<EnergyElecMonth> {
      */
     public static double getCount(List<EnergyElecMonth> energyElecMonths, String type) {
         BigDecimal res = BigDecimal.ZERO;
+        if(energyElecMonths == null){
+            return 0;
+        }
         for (EnergyElecMonth e : energyElecMonths) {
-            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getRealData())));
+            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getRealData()==null ? "0":e.getRealData())));
         }
         if ("sum".equals(type)) {
             return res.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

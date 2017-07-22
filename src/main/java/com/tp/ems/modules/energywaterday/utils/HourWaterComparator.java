@@ -29,7 +29,7 @@ public class HourWaterComparator implements Comparator<EnergyWaterHour> {
     public static double getCount(List<EnergyWaterHour> energyWaterHours, String type) {
         BigDecimal res = BigDecimal.ZERO;
         for (EnergyWaterHour e : energyWaterHours) {
-            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getData())));
+            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getData()==null ? "0":e.getData())));
         }
         if ("sum".equals(type)) {
             return res.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

@@ -25,7 +25,7 @@ public class DayWaterComparator implements Comparator<EnergyWaterDay> {
     public static double getCount(List<EnergyWaterDay> energyWaterDays, String type) {
         BigDecimal res = BigDecimal.ZERO;
         for (EnergyWaterDay e : energyWaterDays) {
-            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getData())));
+            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getData()==null ? "0":e.getData())));
         }
         if ("sum".equals(type)) {
             return res.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

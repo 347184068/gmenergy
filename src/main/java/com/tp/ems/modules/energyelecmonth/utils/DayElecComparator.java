@@ -25,8 +25,11 @@ public class DayElecComparator implements Comparator<EnergyElecDay> {
      */
     public static double getCount(List<EnergyElecDay> energyElecDays, String type) {
         BigDecimal res = BigDecimal.ZERO;
+        if(energyElecDays == null){
+            return 0;
+        }
         for (EnergyElecDay e : energyElecDays) {
-            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getRealData())));
+            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getRealData()==null ? "0":e.getRealData())));
         }
         if ("sum".equals(type)) {
             return res.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

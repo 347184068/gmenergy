@@ -25,7 +25,7 @@ public class MonthWaterComparator implements Comparator<EnergyWaterMonth>{
     public static double getCount(List<EnergyWaterMonth> energyWaterMonths, String type) {
         BigDecimal res = BigDecimal.ZERO;
         for (EnergyWaterMonth e : energyWaterMonths) {
-            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getData())));
+            res = res.add(BigDecimal.valueOf(Double.parseDouble(e.getData()==null ? "0":e.getData())));
         }
         if ("sum".equals(type)) {
             return res.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
